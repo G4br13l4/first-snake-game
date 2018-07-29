@@ -1,0 +1,126 @@
+-----HTML-----
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Prueba Funktionell</title>
+    <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="main.css">
+  </head>
+  <body>
+    <div id="root" class="container">
+        <h1>Snake Game</h1>
+        <h3>Counter: <span id="counter">0</span></h3>
+    </div>
+
+      <script>
+
+        //draw board
+        var row;
+        var cols=``;
+        var boxId =0;
+        var snake = [52,53,54,55];
+        for(var x=1; x <=10; x++){
+            row =document.createElement("div");
+            row.classList.add("row");
+            document.getElementById("root").appendChild(row);
+                for(var y=0; y<12; y++){
+                boxId ++;
+                cols +=`
+                    <div class="col-md-1 col-xs-1 box" data-place="${boxId}">
+                    </div>
+                `
+                }
+                row.innerHTML = cols;
+                cols = ``;
+        }
+        drawFruit();
+
+        //draw snake
+        setInterval(drawSnake,10);
+
+        function drawSnake(){
+          for(var x=0; x<snake.length;x++){
+            document.querySelector(`[data-place="${snake[x]}"]`).classList.add("snake");
+          }
+        }
+
+        //draw fruit function
+        function drawFruit(){
+          document.querySelector(`[data-place="${Math.floor(Math.random() * 120) + 1 }"]`).classList.add("fruit");
+        }
+
+        //move snake function
+        document.body.addEventListener("keydown", move);
+
+        function move(){
+          var pos = document.querySelector(`[data-place="${snake[0]}"]`);
+          var posID = pos.dataset.place;
+          var keyPres = event.keyCode;
+          
+          switch(keyPres) {
+            case 40:
+              //down
+              newPosID = parseInt(posID) +12; 
+              break;
+            case 38:
+              //up
+              newPosID = parseInt(posID) -12;
+              break;
+            case 39:
+              //right
+              newPosID = parseInt(posID) +1;
+              break;
+            case 37:
+              //left
+              newPosID = parseInt(posID) -1;
+              break;
+          }
+          snake.unshift(newPosID);
+          document.querySelector(`[data-place="${snake[snake.length-1]}"]`).classList.remove("snake");
+          snake.pop();
+        }
+        
+        //grow snake function
+        document.body.addEventListener("keydown", eat);
+
+        var fruit;
+        var counter=0;
+
+        function eat(){
+          fruit= document.querySelector(".fruit").dataset.place;
+            for(var x = 0; x < snake.length; x++){
+              if(fruit==snake[x]){
+              counter++; 
+              document.querySelector(".fruit").classList.remove("fruit");
+              document.getElementById("counter").innerHTML = counter;
+              drawFruit();
+              }
+            }
+        }
+
+      </script>
+      <!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  </body>
+</html>
+
+
+----CSS----
+
+.box {
+  height: 7vh;
+  background-image: url("https://images.pexels.com/photos/413195/pexels-photo-413195.jpeg?auto=compress&cs=tinysrgb&h=350");
+}
+
+.snake {
+  background: greenyellow;
+}
+
+.fruit{
+  background-image: url("https://media.giphy.com/media/GDdyKBcwNc772/giphy.gif");
+  background-position: center;
+  background-size: 95%;
+}

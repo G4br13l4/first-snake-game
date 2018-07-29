@@ -1,0 +1,18 @@
+.box {
+    height: 7vh;
+    background-image: url("https://images.pexels.com/photos/413195/pexels-photo-413195.jpeg?auto=compress&cs=tinysrgb&h=350");
+}
+
+.snake {
+    background: greenyellow;
+}
+
+.fruit{
+    background-image: url("https://media.giphy.com/media/GDdyKBcwNc772/giphy.gif");
+    background-position: center;
+    background-size: 95%;
+}
+
+
+
+
